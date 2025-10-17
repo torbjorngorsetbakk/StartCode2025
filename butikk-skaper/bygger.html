@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello, world!</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="" />
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <link rel="icon" href="favicon.png">
+</head>
+    <body>
+        <div id="matrise"></div>
+    </body>
+    <script>
+        var req = new XMLHttpRequest();
+        req.open('GET', document.location, false);
+        req.send(null);
+        console.log(req.getResponseHeader('rader'));
+    </script>
+</html>
