@@ -17,13 +17,21 @@
       height: 25px;
       border: transparent solid 2px;
     }
+
+    .fylt{
+      background-color: beige;
+    }
+
+    .hylle{
+      background-color: gray;
+    }
   </style>
   
   <h1>Rader x Kolonner</h1>
   <form id="form">
     <input type="text" name="rader" id="rader">
     <input type="text" name="kolonner" id="kolonner">
-    <button onclick="skapKnapper()">Send</button>
+    <button type="button" onclick="skapKnapper()">Send</button>
   </form>
   
   <select name="" id="kategori" style="display: inline;">
@@ -32,31 +40,15 @@
     <option value="etnisk">Etnisk</option>
   </select>
 
-  <button onclick="kategori()">Legg til!</button>
+  <button onclick="settKategori()">Legg til!</button>
+  <button onclick="kartleggVegger(eksporterKartKolonner())">Send</button>
 
-  <div id="matrise">
-
-  </div>
+  <b id="kategorierTekst" style="float:right;"></b>
 
 
 
 
   <script src="./scripts/bygger.js"></script>
-  <script>
-    var valgtRute = NaN;
-    var sisteRute = NaN;
-
-
-    function klikk(element, rad, kol, indeks){
-      element.style = "border:solid red 2px;"
-      valgtRute = element;
-
-      if(valgtRute != sisteRute){
-        sisteRute.style = "";
-        sisteRute = valgtRute;
-
-      }
-    }
-  </script>
+  <script src="./scripts/finn_vegger.js"></script>
 </body>
 </html>

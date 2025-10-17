@@ -5,8 +5,9 @@ let mysql = require('mysql');
 
 let con = mysql.createConnection({
   host: "localhost",
-  user: "root",
-  password: "Test1234",
+  port: "3306",
+  user: "backendBruker",
+  password: "passord",
   database: "produkter"
 });
 
@@ -28,7 +29,8 @@ app.listen(PORT, ()=> {
 app.get("/", (request, response) => {
     const endpoints = {
         "Endpoints":{
-            "name": "/"
+            "1": "/",
+            "2": "/navn"
         }
     }
     response.send(endpoints);
@@ -41,12 +43,15 @@ app.post("/navn", (request, response) => {
         var navn = request.body.navn
     }
     catch(error){
+        console.log("Error")
         request.send(error);
     }
 
     let query = `SELECT name,description,productId FROM handleliste WHERE name LIKE '%${navn}%'`
+    console.log(query);
     con.query(query, function (error, data){
-        console.log(data);
+        console.log(JSON.stringify(data));
+        response.send(JSON.stringify(data));
     });
 
 });

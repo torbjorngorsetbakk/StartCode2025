@@ -1,6 +1,31 @@
 var felt = document.getElementById('form');
 var kategori = document.getElementById('kategori')
 
+var kategoriObjekt = {}
+
+
+var valgtRute = NaN;
+var sisteRute = NaN;
+var ruteIndeks = NaN;
+let ruteElement;
+
+
+function klikk(element, rad, kol, indeks){
+    element.style = "border:solid red 2px;"
+    valgtRute = element;
+
+
+    if(valgtRute != sisteRute){
+        sisteRute.style = "";
+        sisteRute = valgtRute;
+
+    }
+    ruteIndeks = indeks;
+    ruteElement = element;
+
+    document.getElementById("kategorierTekst").innerHTML = kategoriObjekt.ruter[indeks];
+}
+
 //Skamløst stjålet fra Phrogz - https://stackoverflow.com/questions/9140101/creating-a-clickable-grid-in-a-web-browser
 function clickableGrid( rows, cols, callback ){
     var i=0;
@@ -22,15 +47,54 @@ function clickableGrid( rows, cols, callback ){
     return grid;
 }
 
-   function skapKnapper(){
-      var rader = document.getElementById('rader').value;
-      var kolonner = document.getElementById('kolonner').value;
+function skapKnapper(){
+    var rader = document.getElementById('rader').value;
+    var kolonner = document.getElementById('kolonner').value;
     
-      document.body.append(clickableGrid(rader, kolonner, klikk));
-      felt.innerHTML = "";
+    document.body.append(clickableGrid(rader, kolonner, klikk));
+    felt.style = "display: none;";
+
+
+    //Lager et skjelett for JSON objektet som holder alle kategoriene
+    kategoriObjekt.ruter = [];
+    for(var i = 0; i < (rader * kolonner); i++){
+        kategoriObjekt.ruter[i] = [];
+    }
+
 }
     
 
-function kategori(){
-    
+function settKategori(){
+    if(isNaN(ruteIndeks)){
+        return;
+    }
+
+    //Hvis en rute er en hylle er den ikke noe annet enn en hylle 
+    if(kategori.value == "hylle"){
+        kategoriObjekt.ruter[ruteIndeks - 1] = ["hylle"];
+        document.getElementById("kategorierTekst").innerHTML = kategoriObjekt.ruter[ruteIndeks - 1];
+
+        //Oppdater farge
+        ruteElement.className = "hylle kloss";
+        return;
+    }
+
+    //Sjekk om "Hylle" ligger i arrayen og fjern den hvis vi legger til en annen verdi
+    if(kategoriObjekt.ruter[ruteIndeks - 1] == ["hylle"]){
+        kategoriObjekt.ruter[ruteIndeks - 1] = [];
+    } 
+
+    kategoriObjekt.ruter[ruteIndeks - 1].push(kategori.value);
+
+    //Skriv tekst
+    document.getElementById("kategorierTekst").innerHTML = kategoriObjekt.ruter[ruteIndeks - 1];
+
+    //Oppdater farge
+    ruteElement.className = "fylt kloss";
+
+    return;
+}
+
+function eksporterKartKolonner(){
+    return [kategoriObjekt, document.getElementById('kolonner').value, document.getElementById('rader').value];
 }
