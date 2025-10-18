@@ -98,3 +98,4 @@ function settKategori(){
 function eksporterKartKolonner(){
     return [kategoriObjekt, document.getElementById('kolonner').value, document.getElementById('rader').value];
 }
+

@@ -138,3 +138,38 @@ app.post("/butikkBygger/nyButikk", (request, response) => {
         response.send(error);
     }
 });
+
+app.post("/butikkBygger/produktposisjon", (request, response) =>{
+    try {
+        var antall = request.body.fra.length;
+        var fra = request.body.fra;
+        var til = request.body.til;
+        var retning = request.body.retning;
+        var butikk_id = request.body.butikk_id;
+        var produktHylle = request.body.produktHylle;
+
+        console.log(antall);
+        for (var i = 0; i < antall; i++) {
+            let query = `INSERT INTO hylleposisjon (butikk_id, fra_posisjon, til_posisjon, retning, hylletype) VALUES (${butikk_id}, ${fra[i]}, ${til[i]}, ${retning[i]}, "${produktHylle[i]}")`;
+            console.log(query);
+            console.log("Iterasjon: "); console.log(i);
+            con.query(query, function (error, data) {
+                if (!error) {
+                    console.log("Ingen error");
+                    console.log(error);
+                } else {
+                    console.log("ERROR");
+                    console.log(error);
+                    return;
+                }
+            });
+            
+        }
+        response.send("200");
+    }
+    catch (error) {
+        console.log(error);
+    }
+
+});
+
