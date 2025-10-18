@@ -1,128 +1,114 @@
-const model = {
-    products: [
-        {
-            "productId": "1001",
-            "gtin": "7091234000013",
-            "name": "Grovt brød 750 g",
-            "description": "Nybakt, grovt brød med høy fiber.",
-            "price": 44.18,
-            "pricePerUnit": 58.91,
-            "unit": "kg",
-            "allergens": "hvete, gluten, melk",
-            "carbonFootprintGram": 325,
-            "organic": false
-        },
-        {
-            "productId": "1002",
-            "gtin": "7091234000020",
-            "name": "Fint brød 750 g",
-            "description": "Luftig hverdagsbrød.",
-            "price": 29.19,
-            "pricePerUnit": 38.92,
-            "unit": "kg",
-            "allergens": "hvete, gluten",
-            "carbonFootprintGram": 404,
-            "organic": false
-        },
-        {
-            "productId": "1003",
-            "gtin": "7091234000037",
-            "name": "Surdeigsbrød 800 g",
-            "description": "Langtidshevet med sprø skorpe.",
-            "price": 25.95,
-            "pricePerUnit": 32.44,
-            "unit": "kg",
-            "allergens": "hvete, gluten",
-            "carbonFootprintGram": 395,
-            "organic": false
-        },
-        {
-            "productId": "1004",
-            "gtin": "7091234000044",
-            "name": "Rundstykker 600 g",
-            "description": "6 stk grove rundstykker.",
-            "price": 43.06,
-            "pricePerUnit": 71.77,
-            "unit": "kg",
-            "allergens": "hvete, gluten, sesam",
-            "carbonFootprintGram": 874,
-            "organic": false
-        },
-            {
-        "productId": "1012",
-        "gtin": "7091234000129",
-        "name": "Lettmelk 1 l",
-        "description": "Lettmelk 1,0% fett.",
-        "price": 46.71,
-        "pricePerUnit": 46.71,
-        "unit": "l",
-        "allergens": "melk, laktose",
-        "carbonFootprintGram": 593,
-        "organic": false
+let prodInput = '';
+let qResponse = {produkter: []};
+let firstLoad = true;
+let shopLists = [
+    {
+        "shopListId": "12",
+        "wares": [1001, 1002, 1003, 1005],
     },
     {
-        "productId": "1013",
-        "gtin": "7091234000136",
-        "name": "Skummet melk 1 l",
-        "description": "Skummet melk.",
-        "price": 28.02,
-        "pricePerUnit": 28.02,
-        "unit": "l",
-        "allergens": "melk, laktose",
-        "carbonFootprintGram": 663,
-        "organic": false
+        "shopListId": "13",
+        "wares": [1031, 1054, 1012, 1080],
     },
-    {
-        "productId": "1014",
-        "gtin": "7091234000143",
-        "name": "Yoghurt naturell 500 g",
-        "description": "Naturell yoghurt.",
-        "price": 32.11,
-        "pricePerUnit": 64.22,
-        "unit": "kg",
-        "allergens": "melk, laktose",
-        "carbonFootprintGram": 1428,
-        "organic": false
-    },
-    ],
-    inputs: {
-        prodInput: '',
-    }
-}
+];
 
-const appElement = document.getElementById('app');
-
-loadPage();
-function loadPage() {
-    document.getElementById('static').innerHTML = /*HTML*/`
-    Pordukt: <input id="prodId" type="text"><br/>
-    `;
-    
-    const input = document.getElementById('prodId'); 
-    input.addEventListener('input', (e) => { model.inputs.prodInput = e.target.value; view(); });
-}
 
 view();
-function view() {
-    appElement.innerHTML = /*HTML*/`
-   ${getProdListHTML()}
+async function view() {
+    if (firstLoad) {
+        document.getElementById('app').innerHTML = /*HTML*/`
+            <div class="static">Pordukt: <input id="prodId" type="text"></div>
+            <div id="shopList"></div>
+        `;
+        shopListElement = document.getElementById('shopList');
+        const input = document.getElementById('prodId');
+        input.addEventListener('input', (e) => { prodInput = e.target.value; view(); });
+        firstLoad = false;
+    }
+
+    shopListElement.innerHTML = /*HTML*/`
+   ${await getProdListHTML()}
     `;
 }
 
-function getProdListHTML() {
-    let LIST = /*HTML*/`
-        <div>${getSearchID()}<div/>
-    `;
+async function getProdListHTML() {
+    await getSearchData();
+
+    let LIST = /*HTML*/`<div class="container">`; // products flex container
+
+    // Check if qResponse has data
+    if (qResponse && qResponse.produkter.length > 0) {
+        // console.log("Goes into if in getProdListHTML")
+        for (let i = 0; i < qResponse.produkter.length; i++) {
+            LIST += /*HTML*/`
+                <div class="box">
+                    <div class="boxL">
+                        <div class="item prodName">${qResponse.produkter[i].name}</div>
+                        <div class="item prodDesc">${qResponse.produkter[i].description}</div>
+                    </div>
+                     <div class="item checkboxbox"><input type="checkbox" class="big"></div>
+                </div>
+            `;
+            // console.log(LIST);
+        }
+        LIST += /*HTML*/`</div>`;
+    } 
+    else {
+        LIST = /*HTML*/ `<div>No results found</div>`;
+    }
+
     return LIST;
 }
 
-function getSearchID() {
-  const q = (model.inputs.prodInput || '').trim();  
-  if (!q) return 'nothing'; // nothing to show when input empty
+async function getSearchData() {
+    const q = (prodInput || '').trim();
+    if (!q) { console.log("Nothing in field"); return; }
+    qResponse = await getDataByName(q);
 
-  const ids = model.products
-    .filter(prod => prod.name.toLowerCase().includes(q.toLowerCase()))
-    .map(prod => prod.productId);
+    // ids might be an array or an object with a 'produkter' array
+    const arr = Array.isArray(qResponse) ? qResponse : (qResponse && Array.isArray(qResponse.produkter) ? qResponse.produkter : []);
+    if (!arr.length) { console.log("Response arary empty"); return; }
+}
 
-  return ids.length ? ids.join(', ') : 'No matches';
+async function getDataByName(navn) {
+    const url = "http://10.10.30.176:3000/navn";
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({ navn }),
+            headers: { "Content-Type": "application/json; charset=UTF-8" }
+        });
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log(result);
+        return result;
+    } catch (error) {
+        console.error(error.message);
+        return 'Error fetching data';
+    }
+}
+ 
+async function getShopListById(id = int) {
+    const url = `http://10.10.30.176:3000/hentHandleliste?id=${id}`;
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log(result);
+        return result;
+    } catch (error) {
+        console.error(error.message);
+        return 'Error fetching data';
+    }
+}
+
+function createShopList (items = []) {
+    const arr = [{shopListId: "12",items}];
+    shopLists.push(...arr);
 }

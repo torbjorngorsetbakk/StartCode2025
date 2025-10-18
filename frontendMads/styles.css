@@ -4,3 +4,48 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+}
+
+.box {
+  display: flex;
+  flex-direction: row;
+  
+  flex-basis: auto;
+  border: 1px solid rgb(108, 108, 108);
+  border-radius: 12px;
+  padding: 6px;
+  margin: 4px;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+.boxL {
+  flex: 5
+}
+
+.prodName {
+  font-size: medium;
+  flex: 1
+}
+
+.prodDesc {
+  font-size: small;
+  color: rgb(69, 69, 69);
+  flex: 1
+}
+
+.checkboxbox {
+  flex: 1;
+  text-align: center;
+  align-self: center;
+}
+
+input.big {
+  width: 20px;
+  height: 20px;
+}
