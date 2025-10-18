@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello, world!</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="" />
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <link rel="icon" href="favicon.png">
+</head>
+<body>
+  <style>
+    .kloss{
+      margin: 10px;
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      border: transparent solid 2px;
+    }
+
+    .fylt{
+      background-color: beige;
+    }
+
+    .hylle{
+      background-color: gray;
+    }
+  </style>
+  
+  <h1>Rader x Kolonner</h1>
+  <form id="form">
+    <input type="text" name="rader" id="rader">
+    <input type="text" name="kolonner" id="kolonner">
+    <button type="button" onclick="skapKnapper()">Send</button>
+  </form>
+  
+
+  <select name="" id="kategori" style="display: inline;">
+    <option value="hylle">Hylle</option>
+    <option value="Brød og rundstykker">Brød og rundstykker</option>
+    <option value="Uferske bakevarer">Uferske bakevarer</option>
+    <option value="Tørrvarer">Tørrvarer</option>
+    <option value="Frø og Nøtter">Frø og Nøtter</option>
+    <option value="Kjøtt">Kjøtt</option>
+    <option value="Fisk">Fisk</option>
+    <option value="Frukt og Bær">Frukt og Bær</option>
+    <option value="Grønnsaker">Grønnsaker</option>
+    <option value="Fri for">Fri for</option>
+    <option value="Melk og Juice">Melk og Juice</option>
+    <option value="Meieri">Meieri</option>
+    <option value="Pålegg">Pålegg</option>
+    <option value="Hermetikk">Hermetikk</option>
+    <option value="Mineralvann">Mineralvann</option>
+    <option value="Frysevarer">Frysevarer</option>
+    <option value="Snacks">Snacks</option>
+    <option value="Frokostblanding">Frokostblanding</option>
+    <option value="Krydder">Krydder</option>
+  </select>
+
+  <button onclick="settKategori()">Legg til!</button>
+  <button onclick="kartleggVegger(eksporterKartKolonner())">Send</button>
+  <input type="text" id="butikknavn">
+
+  <b id="kategorierTekst" style="float:right;"></b>
+
+
+
+
+  <script src="./scripts/bygger.js"></script>
+  <script src="./scripts/finn_vegger.js"></script>
+</body>
+</html>
