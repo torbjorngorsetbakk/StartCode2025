@@ -1,0 +1,23 @@
+[
+  {
+    "id": "kylling_pasta",
+    "name": "Kremet kyllingpasta",
+    "intents": ["kyllingrett", "middag", "pasta"],
+    "ingredients": [
+      {"tag": "kylling", "qty": 400, "unit": "g"},
+      {"tag": "pasta",   "qty": 300, "unit": "g"},
+      {"tag": "helmelk",   "qty": 200, "unit": "ml"},
+      {"tag": "hvitløk", "qty": 2,   "unit": "fedd"}
+    ]
+  },
+  {
+    "id": "kylling_wok",
+    "name": "Kyllingwok med grønnsaker",
+    "intents": ["kyllingrett", "middag", "sunt"],
+    "ingredients": [
+      {"tag": "kylling", "qty": 400, "unit": "g"},
+      {"tag": "ris",     "qty": 250, "unit": "g"},
+      {"tag": "brokkoli","qty": 1,   "unit": "stk"}
+    ]
+  }
+]
