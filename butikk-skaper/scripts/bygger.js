@@ -71,8 +71,8 @@ function settKategori(){
 
     //Hvis en rute er en hylle er den ikke noe annet enn en hylle 
     if(kategori.value == "hylle"){
-        kategoriObjekt.ruter[ruteIndeks - 1] = ["hylle"];
-        document.getElementById("kategorierTekst").innerHTML = kategoriObjekt.ruter[ruteIndeks - 1];
+        kategoriObjekt.ruter[ruteIndeks] = ["hylle"];
+        document.getElementById("kategorierTekst").innerHTML = kategoriObjekt.ruter[ruteIndeks];
 
         //Oppdater farge
         ruteElement.className = "hylle kloss";
@@ -80,14 +80,14 @@ function settKategori(){
     }
 
     //Sjekk om "Hylle" ligger i arrayen og fjern den hvis vi legger til en annen verdi
-    if(kategoriObjekt.ruter[ruteIndeks - 1] == ["hylle"]){
-        kategoriObjekt.ruter[ruteIndeks - 1] = [];
+    if(kategoriObjekt.ruter[ruteIndeks] == ["hylle"]){
+        kategoriObjekt.ruter[ruteIndeks] = [];
     } 
 
-    kategoriObjekt.ruter[ruteIndeks - 1].push(kategori.value);
+    kategoriObjekt.ruter[ruteIndeks].push(kategori.value);
 
     //Skriv tekst
-    document.getElementById("kategorierTekst").innerHTML = kategoriObjekt.ruter[ruteIndeks - 1];
+    document.getElementById("kategorierTekst").innerHTML = kategoriObjekt.ruter[ruteIndeks];
 
     //Oppdater farge
     ruteElement.className = "fylt kloss";

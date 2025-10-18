@@ -66,8 +66,9 @@ function kartleggVegger(inndata) {
                     break;
 
             }
+            veggIndeks++;
         }
-        veggIndeks++;
+        
         indeks++;
     }
 
