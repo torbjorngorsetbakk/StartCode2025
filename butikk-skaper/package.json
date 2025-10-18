@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/torbjorngorsetbakk/StartCode2025#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^5.1.0",
     "mysql": "^2.18.1"
   },

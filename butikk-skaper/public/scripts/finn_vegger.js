@@ -1,7 +1,9 @@
-function kartleggVegger(inndata) {
+async function kartleggVegger(inndata) {
     kart = inndata[0];
     kolonner = parseInt(inndata[1]);
     rader = parseInt(inndata[2]);
+
+    butikknavn = document.getElementById("butikknavn").value;
 
     console.log("Jaaa...");
     /*Tar inn butikkart i JSON format som input
@@ -72,7 +74,25 @@ function kartleggVegger(inndata) {
         indeks++;
     }
 
+    var butikk_id_fetch = await fetch("http://localhost:3000/butikkBygger/nyButikk", {
+        method: 'POST',
+        body: JSON.stringify({
+            "rader": rader,
+            "kolonner": kolonner,
+            "navn": butikknavn
+        }),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    });
+
+    var butikk_id = await butikk_id_fetch.text();
+    veggerObjekt.butikk_id = butikk_id;
+
     console.log(veggerObjekt);
+    fetch("http://localhost:3000/butikkBygger/nyeHyller", {
+        method: 'POST',
+        body: JSON.stringify(veggerObjekt),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    });
 }
 
 
