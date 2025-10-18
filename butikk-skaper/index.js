@@ -173,3 +173,21 @@ app.post("/butikkBygger/produktposisjon", (request, response) =>{
 
 });
 
+app.get("/hentHandleliste", (request, response) =>{
+    id = request.query.id;
+
+    console.log("ID: ");console.log(id);
+
+    let query = `SELECT vareID FROM handlelister WHERE id=${id}`;
+    console.log(query);
+    con.query(query, function(error, data){
+        console.log("INGEN ERROR!");
+        console.log(data);
+        response.send(data);
+    });
+});
+
+
+app.post("/settHandleliste", (request, response) =>{
+    
+});
